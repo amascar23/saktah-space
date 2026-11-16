@@ -4,6 +4,11 @@
  * Technology: Vanilla JavaScript (ES6+), Zero External Dependencies
  */
 
+// =========================================================================
+// KONFIGURASI RESMI SAKTAH SPACE
+// =========================================================================
+const SAKTAH_WA_NUMBER = "6281234567890"; // Ganti dengan nomor WhatsApp aktif Saktah Space diawali 62
+
 document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
@@ -52,17 +57,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // 2. PORTFOLIO CATEGORY FILTERING
+  // 2. PORTFOLIO CATEGORY FILTERING & CASE STUDY MODAL
   // =========================================================================
   const filterBtns = document.querySelectorAll('.portfolio-filters .filter-btn');
   const portfolioCards = document.querySelectorAll('.portfolio-grid .portfolio-card');
 
+  // Filter Kategori Portofolio (Animasi Transisi Lembut Fade-in)
   if (filterBtns.length > 0 && portfolioCards.length > 0) {
     filterBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
         const selectedFilter = btn.getAttribute('data-filter');
 
-        // Perbarui status aksesibilitas dan tombol aktif
+        // Perbarui status aksesibilitas & tombol aktif
         filterBtns.forEach((b) => {
           b.classList.remove('active');
           b.setAttribute('aria-selected', 'false');
@@ -70,15 +76,21 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.classList.add('active');
         btn.setAttribute('aria-selected', 'true');
 
-        // Filter kartu portofolio
+        // Saring kartu portofolio dengan efek transisi lembut
         portfolioCards.forEach((card) => {
           const cardCategory = card.getAttribute('data-category');
-          if (selectedFilter === 'all' || cardCategory === selectedFilter) {
+          const isMatch = selectedFilter === 'all' || cardCategory === selectedFilter;
+
+          if (isMatch) {
             card.classList.remove('is-hidden');
-            // Sedikit delay mikro untuk efek transisi mulus
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(12px)';
             requestAnimationFrame(() => {
-              card.style.opacity = '1';
-              card.style.transform = 'translateY(0)';
+              requestAnimationFrame(() => {
+                card.style.transition = 'opacity 300ms cubic-bezier(0.16, 1, 0.3, 1), transform 300ms cubic-bezier(0.16, 1, 0.3, 1)';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+              });
             });
           } else {
             card.classList.add('is-hidden');
@@ -87,6 +99,161 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+  // Pop-up Detail Karya (Case Study Modal)
+  const caseStudyModal = document.getElementById('caseStudyModal');
+  const caseStudyBackdrop = document.getElementById('caseStudyBackdrop');
+  const caseStudyCloseBtn = document.getElementById('caseStudyCloseBtn');
+  const modalProjectCategory = document.getElementById('modalProjectCategory');
+  const modalProjectTitle = document.getElementById('modalProjectTitle');
+  const modalProjectChallenge = document.getElementById('modalProjectChallenge');
+  const modalProjectSolution = document.getElementById('modalProjectSolution');
+  const modalWaBtn = document.getElementById('modalWaBtn');
+
+  const openCaseStudyModal = (card) => {
+    if (!caseStudyModal || !card) return;
+
+    const category = card.getAttribute('data-project-category') || 'Karya';
+    const title = card.getAttribute('data-project-title') || card.querySelector('.portfolio-title')?.textContent || 'Detail Karya';
+    const challenge = card.getAttribute('data-project-challenge') || 'Tantangan proyek berfokus pada pembangunan kredibilitas dan kejelasan identitas digital.';
+    const solution = card.getAttribute('data-project-solution') || 'Saktah Space merancang solusi beretika dengan estetika modern yang tenang dan berdampak nyata.';
+    const customWaText = card.getAttribute('data-project-wa') || `Halo Saktah Space, saya tertarik berdiskusi mengenai proyek serupa: ${title}`;
+
+    if (modalProjectCategory) modalProjectCategory.textContent = category;
+    if (modalProjectTitle) modalProjectTitle.textContent = title;
+    if (modalProjectChallenge) modalProjectChallenge.textContent = challenge;
+    if (modalProjectSolution) modalProjectSolution.textContent = solution;
+
+    if (modalWaBtn) {
+      modalWaBtn.href = `https://wa.me/${SAKTAH_WA_NUMBER}?text=${encodeURIComponent(customWaText)}`;
+    }
+
+    caseStudyModal.classList.add('is-active');
+    caseStudyModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('menu-open'); // Mencegah scrolling latar belakang saat modal aktif
+
+    if (caseStudyCloseBtn) caseStudyCloseBtn.focus();
+  };
+
+  const closeCaseStudyModal = () => {
+    if (!caseStudyModal) return;
+    caseStudyModal.classList.remove('is-active');
+    caseStudyModal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('menu-open');
+  };
+
+  // Pasang listener pada seluruh kartu portofolio dan tombol detailnya
+  portfolioCards.forEach((card) => {
+    card.addEventListener('click', () => {
+      openCaseStudyModal(card);
+    });
+
+    // Aksesibilitas keyboard (Enter / Spasi) pada kartu
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('role', 'button');
+    const projectTitle = card.querySelector('.portfolio-title')?.textContent || '';
+    card.setAttribute('aria-label', `Buka studi kasus ${projectTitle}`);
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openCaseStudyModal(card);
+      }
+    });
+  });
+
+  if (caseStudyCloseBtn) caseStudyCloseBtn.addEventListener('click', closeCaseStudyModal);
+  if (caseStudyBackdrop) caseStudyBackdrop.addEventListener('click', closeCaseStudyModal);
+
+  // Keyboard Escape untuk menutup modal
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && caseStudyModal && caseStudyModal.classList.contains('is-active')) {
+      closeCaseStudyModal();
+    }
+  });
+
+  // =========================================================================
+  // 2B. PACKAGE SIMULATION MODAL (RINCIAN & SIMULASI PAKET)
+  // =========================================================================
+  const packageSimulasiModal = document.getElementById('packageSimulasiModal');
+  const simulasiBackdrop = document.getElementById('simulasiBackdrop');
+  const simulasiCloseBtn = document.getElementById('simulasiCloseBtn');
+  const simulasiTierTag = document.getElementById('simulasiTierTag');
+  const simulasiModalTitle = document.getElementById('simulasiModalTitle');
+  const simulasiPriceBadge = document.getElementById('simulasiPriceBadge');
+  const simulasiModalDesc = document.getElementById('simulasiModalDesc');
+  const simulasiDeliverablesList = document.getElementById('simulasiDeliverablesList');
+  const simulasiLeadTime = document.getElementById('simulasiLeadTime');
+  const simulasiRevision = document.getElementById('simulasiRevision');
+  const simulasiGuarantee = document.getElementById('simulasiGuarantee');
+  const simulasiWaBtn = document.getElementById('simulasiWaBtn');
+
+  const openSimulasiModal = (btn) => {
+    if (!packageSimulasiModal || !btn) return;
+
+    const name = btn.getAttribute('data-name') || 'Paket Pilihan';
+    const tag = btn.getAttribute('data-tag') || 'Paket';
+    const price = btn.getAttribute('data-price') || 'Rp0';
+    const desc = btn.getAttribute('data-desc') || '';
+    const leadtime = btn.getAttribute('data-leadtime') || 'Sesuai kesepakatan';
+    const deliverablesRaw = btn.getAttribute('data-deliverables') || '';
+    const revision = btn.getAttribute('data-revision') || '2x Putaran Revisi';
+    const guarantee = btn.getAttribute('data-guarantee') || 'Jaminan kualitas & kejujuran visual Saktah Space';
+
+    if (simulasiTierTag) simulasiTierTag.textContent = tag;
+    if (simulasiModalTitle) simulasiModalTitle.textContent = name;
+    if (simulasiPriceBadge) simulasiPriceBadge.textContent = price;
+    if (simulasiModalDesc) simulasiModalDesc.textContent = desc;
+    if (simulasiLeadTime) simulasiLeadTime.textContent = leadtime;
+    if (simulasiRevision) simulasiRevision.textContent = revision;
+    if (simulasiGuarantee) simulasiGuarantee.textContent = guarantee;
+
+    // Render deliverables
+    if (simulasiDeliverablesList) {
+      simulasiDeliverablesList.innerHTML = '';
+      const items = deliverablesRaw.split('|').filter(item => item.trim().length > 0);
+      items.forEach((itemText) => {
+        const li = document.createElement('li');
+        li.textContent = itemText.trim();
+        simulasiDeliverablesList.appendChild(li);
+      });
+    }
+
+    // Set WhatsApp link
+    if (simulasiWaBtn) {
+      const waText = `Halo Saktah Space, saya tertarik untuk memesan dan berkonsultasi mengenai ${name} (${price}).`;
+      simulasiWaBtn.href = `https://wa.me/${SAKTAH_WA_NUMBER}?text=${encodeURIComponent(waText)}`;
+    }
+
+    packageSimulasiModal.classList.add('is-active');
+    packageSimulasiModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('menu-open');
+
+    if (simulasiCloseBtn) simulasiCloseBtn.focus();
+  };
+
+  const closeSimulasiModal = () => {
+    if (!packageSimulasiModal) return;
+    packageSimulasiModal.classList.remove('is-active');
+    packageSimulasiModal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('menu-open');
+  };
+
+  const simulasiBtns = document.querySelectorAll('.btn-package-simulasi');
+  simulasiBtns.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openSimulasiModal(btn);
+    });
+  });
+
+  if (simulasiCloseBtn) simulasiCloseBtn.addEventListener('click', closeSimulasiModal);
+  if (simulasiBackdrop) simulasiBackdrop.addEventListener('click', closeSimulasiModal);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && packageSimulasiModal && packageSimulasiModal.classList.contains('is-active')) {
+      closeSimulasiModal();
+    }
+  });
 
   // =========================================================================
   // 3. FAQ ACCORDION (ENHANCED SINGLE-EXPAND INTERACTION)
@@ -187,28 +354,38 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // 6. WHATSAPP & CONTACT PLACEHOLDER MODAL NOTICE
+  // 6. WHATSAPP AUTO-INTEGRATION & SYNC
   // =========================================================================
+  // Sinkronisasi otomatis seluruh tombol & tautan WhatsApp di halaman dengan SAKTAH_WA_NUMBER
+  const waLinks = document.querySelectorAll('a[href*="wa.me"]');
+  waLinks.forEach((link) => {
+    const currentHref = link.getAttribute('href');
+    if (currentHref) {
+      // Perbarui nomor tujuan ke SAKTAH_WA_NUMBER tanpa mengubah pesan text query
+      const updatedHref = currentHref.replace(
+        /wa\.me\/(\[PlaceholderNomorWhatsApp\]|[0-9]+)/,
+        `wa.me/${SAKTAH_WA_NUMBER}`
+      );
+      link.setAttribute('href', updatedHref);
+    }
+  });
+
+  // Tampilkan nomor WhatsApp resmi terformat pada footer
+  const footerWaNumber = document.querySelector('.footer-wa-number');
+  if (footerWaNumber) {
+    if (SAKTAH_WA_NUMBER.startsWith('62')) {
+      const formatted = `+62 ${SAKTAH_WA_NUMBER.slice(2, 5)}-${SAKTAH_WA_NUMBER.slice(5, 9)}-${SAKTAH_WA_NUMBER.slice(9)}`;
+      footerWaNumber.textContent = formatted;
+    } else {
+      footerWaNumber.textContent = SAKTAH_WA_NUMBER;
+    }
+  }
+
+  // Dukungan Modal Notifikasi (tetap siaga jika dibutuhkan oleh fungsi lain)
   const noticeModal = document.getElementById('contactNoticeModal');
   const modalCloseBtn = document.getElementById('modalCloseBtn');
   const modalConfirmBtn = document.getElementById('modalConfirmBtn');
   const modalBackdrop = document.getElementById('modalBackdrop');
-
-  const openNoticeModal = (message) => {
-    if (!noticeModal) return;
-    if (message) {
-      const modalBody = document.getElementById('modalBodyText');
-      if (modalBody) {
-        modalBody.innerHTML = `
-          <p>${message}</p>
-          <p class="modal-subtext">Untuk kebutuhan konsultasi dan diskusi proyek saat ini, Anda dapat mengirimkan email resmi ke <strong>halo@saktah.space</strong> atau kembali berkunjung saat nomor resmi telah dipublikasikan.</p>
-        `;
-      }
-    }
-    noticeModal.classList.add('is-active');
-    noticeModal.setAttribute('aria-hidden', 'false');
-    if (modalConfirmBtn) modalConfirmBtn.focus();
-  };
 
   const closeNoticeModal = () => {
     if (!noticeModal) return;
@@ -226,22 +403,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Intersep tautan WhatsApp yang masih berupa placeholder
-  const waLinks = document.querySelectorAll('a[href*="wa.me"]');
-  waLinks.forEach((link) => {
-    const href = link.getAttribute('href');
-    if (href && (href.includes('[Placeholder') || href.includes('PlaceholderNomorWhatsApp'))) {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        openNoticeModal(
-          'Nomor WhatsApp resmi Saktah Space saat ini sedang dalam proses finalisasi operasional dan belum terhubung ke tautan otomatis.'
-        );
-      });
-    }
-  });
-
   // =========================================================================
-  // 7. CONSULTATION INQUIRY FORM (HONEST SUBMISSION LIMITATION)
+  // 7. CONSULTATION INQUIRY FORM (WHATSAPP AUTOMATIC INTEGRATION)
   // =========================================================================
   const inquiryForm = document.getElementById('inquiryForm');
   const formFeedback = document.getElementById('formFeedback');
@@ -250,27 +413,68 @@ document.addEventListener('DOMContentLoaded', () => {
     inquiryForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      // Validasi form native
-      if (!inquiryForm.checkValidity()) {
-        inquiryForm.reportValidity();
+      const clientNameInput = document.getElementById('clientName');
+      const clientBrandInput = document.getElementById('clientBrand');
+      const serviceNeededSelect = document.getElementById('serviceNeeded');
+      const projectNotesInput = document.getElementById('projectNotes');
+
+      const clientName = clientNameInput ? clientNameInput.value.trim() : '';
+      const clientBrand = clientBrandInput ? clientBrandInput.value.trim() : '';
+      const serviceNeeded = serviceNeededSelect ? serviceNeededSelect.value : '';
+      const projectNotes = projectNotesInput ? projectNotesInput.value.trim() : '';
+
+      // 1. Validasi Kolom Wajib: Nama Lengkap
+      if (!clientName) {
+        formFeedback.className = 'form-feedback error is-visible';
+        formFeedback.innerHTML = '<strong>Pengingat:</strong> Mohon isi Nama Lengkap Anda terlebih dahulu.';
+        if (clientNameInput) clientNameInput.focus();
+        formFeedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         return;
       }
 
-      const clientName = document.getElementById('clientName')?.value || 'Mitra';
+      // 2. Validasi Kolom Wajib: Layanan / Paket yang Dipilih
+      if (!serviceNeeded) {
+        formFeedback.className = 'form-feedback error is-visible';
+        formFeedback.innerHTML = '<strong>Pengingat:</strong> Silakan pilih salah satu Layanan / Paket yang Anda butuhkan.';
+        if (serviceNeededSelect) serviceNeededSelect.focus();
+        formFeedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+      }
 
-      // ATURAN INTEGRITAS: Jangan pernah menampilkan pesan sukses palsu ("Pesan terkirim")
-      // ketika belum ada backend pengiriman riil yang terkonfigurasi.
-      formFeedback.className = 'form-feedback notice is-visible';
+      // Ambil teks deskriptif dari opsi layanan yang dipilih
+      const selectedServiceText =
+        serviceNeededSelect.options[serviceNeededSelect.selectedIndex]?.text || serviceNeeded;
+
+      // 3. Rangkai pesan salam profesional dan terstruktur dalam Bahasa Indonesia
+      const messageLines = [
+        "Assalamu'alaikum / Halo Tim Saktah Space,",
+        "",
+        "Saya ingin berkonsultasi mengenai proyek dengan rincian berikut:",
+        `• Nama Lengkap: ${clientName}`,
+        `• Nama Usaha / Brand: ${clientBrand || '-'}`,
+        `• Layanan / Paket yang Dipilih: ${selectedServiceText}`,
+        `• Catatan Singkat / Sasaran: ${projectNotes || '-'}`,
+        "",
+        "Mohon informasi ketersediaan jadwal konsultasi dan langkah selanjutnya. Terima kasih."
+      ];
+
+      const waMessage = messageLines.join('\n');
+      const waUrl = `https://wa.me/${SAKTAH_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`;
+
+      // 4. Tampilkan pesan status pengalihan ramah
+      formFeedback.className = 'form-feedback success is-visible';
       formFeedback.innerHTML = `
-        <strong>Pemberitahuan Sistem (Belum Ada Layanan Pengiriman Terpasang):</strong><br>
-        Halo ${clientName}, terima kasih atas ketertarikan Anda. Formulir ini saat ini 
-        <strong>belum terhubung ke backend pengiriman pesan otomatis</strong> 
-        (layanan formulir pihak ketiga seperti Formspree, EmailJS, atau API server belum dikonfigurasi).<br><br>
-        <em>Pesan Anda belum terkirim.</em> Untuk mengajukan konsultasi atau penawaran resmi saat ini, 
-        silakan kirimkan email langsung ke <strong>halo@saktah.space</strong> dengan rincian kebutuhan Anda.
+        <strong>Menghubungkan ke WhatsApp Resmi Saktah Space...</strong><br>
+        Rincian pesan Anda telah siap. Jika jendela WhatsApp tidak terbuka otomatis, 
+        <a href="${waUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; font-weight: 700; color: inherit;">
+          klik di sini untuk membuka obrolan WhatsApp
+        </a>.
       `;
 
       formFeedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      // 5. Buka tautan WhatsApp di tab baru secara otomatis
+      window.open(waUrl, '_blank', 'noopener,noreferrer');
     });
   }
 
@@ -302,6 +506,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sections.forEach((section) => {
       sectionObserver.observe(section);
+    });
+  }
+
+  // =========================================================================
+  // 9. FLOATING ACTION BUTTONS (BACK TO TOP & WHATSAPP SHORTCUT)
+  // =========================================================================
+  const backToTopBtn = document.getElementById('backToTopBtn');
+  const floatingWaBtn = document.getElementById('floatingWaBtn');
+
+  if (floatingWaBtn) {
+    floatingWaBtn.href = `https://wa.me/${SAKTAH_WA_NUMBER}?text=${encodeURIComponent("Halo Saktah Space, saya ingin berkonsultasi mengenai proyek saya.")}`;
+  }
+
+  if (backToTopBtn) {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.add('is-visible');
+      } else {
+        backToTopBtn.classList.remove('is-visible');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     });
   }
 
