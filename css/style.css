@@ -1,32 +1,61 @@
 /* ==========================================================================
    SAKTAH SPACE — OFFICIAL DESIGN SYSTEM & STYLESHEET
-   Direction: Quiet Confidence
-   Technologies: Modern Vanilla CSS3, Grid, Flexbox, Fluid Typography
+   Aesthetics: 3D Layered Paper-Cut, Organic Curved Waves, Minimalist Islamic Arch,
+               Modern Digital Showcase Frames & Clean Pill Buttons
+   Direction: Quiet Confidence • Clean Space, Clear Impact
+   Colors: 100% Saktah Official Palette (Light: Cream #F4EFDC / Green #344C38;
+           Dark: Deep Green #131B15 / Cream #F4EFDC)
+   Technologies: Modern Vanilla CSS3, Grid, Flexbox, Fluid Typography, CSS Custom Properties
+   Layout Invariant: Zero Pixel Shift between Light Mode and Dark Mode
    ========================================================================== */
 
 /* Google Fonts Import */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 /* ==========================================================================
-   1. DESIGN TOKENS (LIGHT & DARK THEMES)
+   1. DESIGN TOKENS (LIGHT & DARK THEMES — 100% OFFICIAL SAKTAH SPACE CODES)
    ========================================================================== */
 :root {
-  /* Brand Palettes */
+  /* Brand Palettes — Light Mode (Default) */
+  /* Latar utama & lapisan paper-cut Cream (#F4EFDC), elemen utama, teks, border, & bayangan Hijau (#344C38) */
   --color-primary-base: #344C38;
   --color-primary-dark: #233326;
   --color-primary-surface: #1A281D;
   --color-surface-base: #F4EFDC;
   --color-surface-subtle: #EAE4CF;
   --color-surface-card: #FAF6EB;
+  --color-paper-layer-1: #FAF6EB;
+  --color-paper-layer-2: #EAE4CF;
+  --color-paper-layer-3: #DFD7BD;
   --color-accent-sage: #8FA28F;
   --color-accent-soft: #D6E0D5;
-  --color-text-main: #1C241E;
+  --color-text-main: #344C38;
   --color-text-muted: #5C6B5E;
   --color-text-inverse: #F4EFDC;
-  --color-border-subtle: rgba(52, 76, 56, 0.14);
+  --color-border-subtle: rgba(52, 76, 56, 0.16);
   --color-border-active: #344C38;
-  --color-input-bg: #FFFFFF;
-  --color-shadow-tint: rgba(28, 36, 30, 0.08);
+  --color-border-paper: rgba(52, 76, 56, 0.22);
+  --color-input-bg: #FAF6EB;
+  --color-shadow-tint: rgba(52, 76, 56, 0.12);
+  --color-paper-rim: rgba(255, 255, 255, 0.75);
+  --color-arch-line: rgba(52, 76, 56, 0.25);
+  --color-arch-glow: rgba(52, 76, 56, 0.05);
+
+  /* 3D Paper-Cut Wave Gradients & Shadows — Light Mode */
+  --wave-grad-back-start: #F4EFDC;
+  --wave-grad-back-mid: #EAE2C8;
+  --wave-grad-back-end: rgba(52, 76, 56, 0.12);
+  --wave-grad-mid-start: #FAF6EB;
+  --wave-grad-mid-end: #EAE2C8;
+
+  --wave-to-base-back-start: #EAE4CF;
+  --wave-to-base-back-mid: #DFD7BD;
+  --wave-to-base-back-end: rgba(52, 76, 56, 0.12);
+  --wave-to-base-mid-start: #FAF6EB;
+  --wave-to-base-mid-end: #F4EFDC;
+
+  --wave-shadow-mid: drop-shadow(0 -3px 8px rgba(52, 76, 56, 0.08));
+  --wave-shadow-front: drop-shadow(0 -5px 14px rgba(52, 76, 56, 0.12));
 
   /* Typography */
   --font-display: 'Cormorant Garamond', Georgia, serif;
@@ -43,17 +72,49 @@
   --space-3xl: 96px;
   --space-4xl: 128px;
 
-  /* Layout */
+  /* Layout & Metrics (INVARIANT across Light and Dark Mode — zero layout shift) */
   --container-max: 1200px;
   --header-height: 72px;
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-pill: 9999px;
   
-  /* Elevation Shadows */
-  --shadow-sm: 0 2px 8px var(--color-shadow-tint);
-  --shadow-md: 0 8px 24px var(--color-shadow-tint);
-  --shadow-lg: 0 16px 36px var(--color-shadow-tint);
+  /* 3D Layered Paper-Cut Shadows — Light Mode */
+  --shadow-paper-sm: 
+    0 1px 2px rgba(52, 76, 56, 0.06), 
+    0 3px 8px -1px rgba(52, 76, 56, 0.08), 
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  
+  --shadow-paper-md: 
+    0 1px 3px rgba(52, 76, 56, 0.05),
+    0 6px 16px -2px rgba(52, 76, 56, 0.1), 
+    0 16px 32px -4px rgba(52, 76, 56, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -1px 0 rgba(52, 76, 56, 0.04);
+  
+  --shadow-paper-lg: 
+    0 2px 4px rgba(52, 76, 56, 0.06),
+    0 12px 28px -4px rgba(52, 76, 56, 0.14), 
+    0 24px 48px -8px rgba(52, 76, 56, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(52, 76, 56, 0.05);
+
+  --shadow-paper-hover: 
+    0 4px 8px rgba(52, 76, 56, 0.08),
+    0 16px 32px -4px rgba(52, 76, 56, 0.16), 
+    0 28px 56px -6px rgba(52, 76, 56, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+
+  --shadow-paper-button: 
+    0 2px 4px rgba(52, 76, 56, 0.15), 
+    0 8px 18px -2px rgba(52, 76, 56, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+  --shadow-paper-inset:
+    inset 0 2px 6px rgba(52, 76, 56, 0.08),
+    0 1px 0 rgba(255, 255, 255, 0.8);
 
   /* Transitions */
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
@@ -61,23 +122,86 @@
   --duration-normal: 300ms;
 }
 
-/* Dark Mode Theme Overrides */
+/* ==========================================================================
+   Dark Mode Theme Overrides
+   Latar utama Hijau Gelap (#131B15), lapisan kartu & relief paper-cut hijau pekat,
+   serta teks, garis arsitektur, & aksen utama Cream (#F4EFDC)
+   Semua ukuran dimensi, border-width, margin, dan padding 100% IDENTIK (0px shift)
+   ========================================================================== */
 [data-theme="dark"] {
-  --color-primary-base: #8FA28F;
-  --color-primary-dark: #A7B9A8;
-  --color-primary-surface: #0E1610;
+  --color-primary-base: #F4EFDC;
+  --color-primary-dark: #EAE4CF;
+  --color-primary-surface: #0A0F0B;
   --color-surface-base: #131B15;
   --color-surface-subtle: #1C271F;
   --color-surface-card: #18221B;
+  --color-paper-layer-1: #18221B;
+  --color-paper-layer-2: #1C271F;
+  --color-paper-layer-3: #233326;
   --color-accent-sage: #A7B9A8;
   --color-accent-soft: #27362B;
   --color-text-main: #F4EFDC;
   --color-text-muted: #A3B5A5;
   --color-text-inverse: #131B15;
-  --color-border-subtle: rgba(244, 239, 220, 0.12);
-  --color-border-active: #8FA28F;
+  --color-border-subtle: rgba(244, 239, 220, 0.16);
+  --color-border-active: #F4EFDC;
+  --color-border-paper: rgba(244, 239, 220, 0.24);
   --color-input-bg: #1A241C;
-  --color-shadow-tint: rgba(0, 0, 0, 0.35);
+  --color-shadow-tint: rgba(0, 0, 0, 0.45);
+  --color-paper-rim: rgba(244, 239, 220, 0.1);
+  --color-arch-line: rgba(244, 239, 220, 0.3);
+  --color-arch-glow: rgba(244, 239, 220, 0.04);
+
+  /* 3D Paper-Cut Wave Gradients & Shadows — Dark Mode */
+  --wave-grad-back-start: #131B15;
+  --wave-grad-back-mid: #2E4231;
+  --wave-grad-back-end: #3F5442;
+  --wave-grad-mid-start: #18221B;
+  --wave-grad-mid-end: #1C271F;
+
+  --wave-to-base-back-start: #1C271F;
+  --wave-to-base-back-mid: #2E4231;
+  --wave-to-base-back-end: #3F5442;
+  --wave-to-base-mid-start: #18221B;
+  --wave-to-base-mid-end: #131B15;
+
+  --wave-shadow-mid: drop-shadow(0 -3px 8px rgba(0, 0, 0, 0.45));
+  --wave-shadow-front: drop-shadow(0 -5px 16px rgba(0, 0, 0, 0.55));
+
+  /* 3D Layered Paper-Cut Shadows — Dark Mode */
+  --shadow-paper-sm: 
+    0 1px 3px rgba(0, 0, 0, 0.35), 
+    0 4px 10px rgba(0, 0, 0, 0.3), 
+    inset 0 1px 0 rgba(244, 239, 220, 0.08);
+  
+  --shadow-paper-md: 
+    0 2px 6px rgba(0, 0, 0, 0.4),
+    0 8px 20px -2px rgba(0, 0, 0, 0.5), 
+    0 18px 36px -4px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(244, 239, 220, 0.12),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+  
+  --shadow-paper-lg: 
+    0 4px 10px rgba(0, 0, 0, 0.45),
+    0 16px 36px -4px rgba(0, 0, 0, 0.6), 
+    0 28px 56px -6px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(244, 239, 220, 0.14),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+
+  --shadow-paper-hover: 
+    0 6px 12px rgba(0, 0, 0, 0.45),
+    0 18px 36px -4px rgba(0, 0, 0, 0.65), 
+    0 32px 64px -6px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(244, 239, 220, 0.2);
+
+  --shadow-paper-button: 
+    0 2px 6px rgba(0, 0, 0, 0.35), 
+    0 8px 20px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+
+  --shadow-paper-inset:
+    inset 0 2px 6px rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(244, 239, 220, 0.1);
 }
 
 /* ==========================================================================
@@ -93,6 +217,8 @@ html {
   font-size: 16px;
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-height) + 16px);
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
@@ -104,6 +230,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   transition: background-color var(--duration-normal) var(--ease-smooth),
               color var(--duration-normal) var(--ease-smooth);
+  position: relative;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body.menu-open {
@@ -118,7 +247,7 @@ img, svg {
 a {
   color: inherit;
   text-decoration: none;
-  transition: color var(--duration-fast) ease;
+  transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease;
 }
 
 button {
@@ -132,7 +261,7 @@ ul, ol {
   list-style: none;
 }
 
-/* Accessibility Skip Link */
+/* Accessibility: Skip Link */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -150,12 +279,13 @@ ul, ol {
   top: -100px;
   left: var(--space-sm);
   background: var(--color-primary-base);
-  color: var(--color-text-inverse);
+  color: var(--color-surface-base);
   padding: var(--space-xs) var(--space-sm);
   z-index: 10000;
   font-weight: 600;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-pill);
   transition: top var(--duration-fast) ease;
+  box-shadow: var(--shadow-paper-sm);
 }
 
 .skip-link:focus {
@@ -163,7 +293,7 @@ ul, ol {
 }
 
 /* ==========================================================================
-   3. LAYOUT & CONTAINERS
+   3. LAYOUT, SECTIONS & 3D PAPER-CUT CONTAINERS
    ========================================================================== */
 .container {
   width: 100%;
@@ -194,25 +324,58 @@ section {
   }
 }
 
+/* Alternating Section Background Rhythm (100% Invariant between Light & Dark Mode) */
+.hero-section,
+.services-section,
+.why-us-section,
+.testimonials-section,
+.faq-section {
+  background-color: var(--color-surface-base);
+}
+
+.about-section,
+.portfolio-section,
+.process-section,
+.pricing-section,
+.contact-section {
+  background-color: var(--color-surface-subtle);
+}
+
 /* Section Header Typography */
 .section-badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-primary-base);
   margin-bottom: var(--space-xs);
-  padding: 4px 10px;
-  background-color: var(--color-surface-subtle);
-  border-radius: var(--radius-sm);
+  padding: 6px 18px;
+  background-color: var(--color-surface-card);
+  border-radius: var(--radius-pill); /* Pill Badge */
   border: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-paper-sm);
+  transition: all var(--duration-fast) ease;
+}
+
+/* Delicate Minimalist Islamic Arch Icon inside section badge */
+.section-badge::before {
+  content: '';
+  display: inline-block;
+  width: 11px;
+  height: 14px;
+  background-color: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 11 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 13V6.5C1 3.5 3.5 1.5 5.5 0.5C7.5 1.5 10 3.5 10 6.5V13H1Z' fill='black'/%3E%3C/svg%3E") no-repeat center / contain;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 11 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 13V6.5C1 3.5 3.5 1.5 5.5 0.5C7.5 1.5 10 3.5 10 6.5V13H1Z' fill='black'/%3E%3C/svg%3E") no-repeat center / contain;
+  opacity: 0.85;
 }
 
 .badge-inverse {
-  color: var(--color-text-inverse);
+  color: #F4EFDC;
   background-color: rgba(244, 239, 220, 0.12);
-  border-color: rgba(244, 239, 220, 0.2);
+  border-color: rgba(244, 239, 220, 0.22);
 }
 
 .section-title {
@@ -234,7 +397,7 @@ section {
 }
 
 /* ==========================================================================
-   4. BUTTONS & INTERACTIVE ELEMENTS
+   4. TOMBOL BERBENTUK KAPSUL (CLEAN & ELEGANT PILL BUTTONS)
    ========================================================================== */
 .btn {
   display: inline-flex;
@@ -243,10 +406,14 @@ section {
   gap: var(--space-xs);
   font-weight: 600;
   font-size: 0.9375rem;
-  padding: 12px 24px;
-  border-radius: var(--radius-sm);
+  padding: 13px 28px;
+  border-radius: var(--radius-pill); /* Pill Shape */
   transition: all var(--duration-fast) var(--ease-smooth);
   text-align: center;
+  box-sizing: border-box;
+  letter-spacing: 0.01em;
+  position: relative;
+  overflow: hidden;
 }
 
 .btn:focus-visible {
@@ -254,34 +421,66 @@ section {
   outline-offset: 3px;
 }
 
+/* Primary Pill Button */
 .btn-primary {
   background-color: var(--color-primary-base);
-  color: var(--color-text-inverse);
+  color: var(--color-surface-base);
+  border: 1.5px solid var(--color-primary-base);
+  box-shadow: var(--shadow-paper-button);
 }
 
 .btn-primary:hover {
   background-color: var(--color-primary-dark);
-  transform: translateY(-1px);
+  border-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-paper-hover);
 }
 
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Dark mode specific contrast for primary pill */
+[data-theme="dark"] .btn-primary {
+  background-color: #F4EFDC;
+  color: #131B15;
+  border-color: #F4EFDC;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35), 0 8px 20px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="dark"] .btn-primary:hover {
+  background-color: #EAE4CF;
+  border-color: #EAE4CF;
+  color: #131B15;
+}
+
+/* Secondary Pill Button (Outline with tactile paper shadow) */
 .btn-secondary {
   background-color: transparent;
   color: var(--color-text-main);
   border: 1.5px solid var(--color-border-active);
+  box-shadow: 0 1px 3px var(--color-shadow-tint);
 }
 
 .btn-secondary:hover {
-  background-color: rgba(52, 76, 56, 0.08);
-  transform: translateY(-1px);
+  background-color: var(--color-border-subtle);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-paper-sm);
 }
 
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+/* Pill Sizing Variations (Invariant borders and paddings) */
 .btn-compact {
-  padding: 8px 16px;
+  padding: 10px 20px;
   font-size: 0.875rem;
+  white-space: nowrap;
 }
 
 .btn-large {
-  padding: 14px 28px;
+  padding: 16px 36px;
   font-size: 1rem;
 }
 
@@ -289,18 +488,46 @@ section {
   width: 100%;
 }
 
+/* WhatsApp Pill Button (Harmonized with Saktah Cream & Green Palette) */
 .btn-whatsapp {
-  background-color: #25D366;
-  color: #FFFFFF;
+  background-color: #F4EFDC;
+  color: #344C38;
+  border: 1.5px solid #F4EFDC;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 8px 20px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+
+.btn-whatsapp .btn-wa-icon {
+  fill: #344C38;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: fill var(--duration-fast) ease;
 }
 
 .btn-whatsapp:hover {
-  background-color: #1EBE5D;
-  transform: translateY(-1px);
+  background-color: #C8A97E; /* Warm Sand */
+  border-color: #C8A97E;
+  color: #1A281D;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 12px 26px rgba(0, 0, 0, 0.35);
+}
+
+.btn-whatsapp:hover .btn-wa-icon {
+  fill: #1A281D;
+}
+
+.btn-whatsapp:active {
+  transform: translateY(0);
 }
 
 /* ==========================================================================
-   5. HEADER & NAVIGATION
+   5. HEADER & NAVIGATION (STICKY GLASS & ZERO LAYOUT SHIFT TOGGLES)
    ========================================================================== */
 .site-header {
   position: sticky;
@@ -308,26 +535,28 @@ section {
   left: 0;
   width: 100%;
   height: var(--header-height);
-  background-color: rgba(244, 239, 220, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(244, 239, 220, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--color-border-subtle);
   z-index: 1000;
-  transition: background-color var(--duration-normal) ease;
+  transition: background-color var(--duration-normal) ease, border-color var(--duration-normal) ease;
 }
 
 [data-theme="dark"] .site-header {
-  background-color: rgba(19, 27, 21, 0.92);
+  background-color: rgba(19, 27, 21, 0.94);
 }
 
 .header-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: nowrap;
   height: 100%;
   max-width: var(--container-max);
   margin: 0 auto;
   padding: 0 var(--space-md);
+  gap: 16px;
 }
 
 @media (min-width: 768px) {
@@ -339,13 +568,17 @@ section {
 .brand-logo-link {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .brand-logo {
   width: 36px;
   height: 36px;
   object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px var(--color-shadow-tint));
 }
 
 .brand-name {
@@ -354,6 +587,13 @@ section {
   font-weight: 700;
   color: var(--color-text-main);
   letter-spacing: -0.01em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
 }
 
 .nav-menu {
@@ -364,61 +604,99 @@ section {
   .nav-menu {
     display: flex;
     align-items: center;
-    gap: var(--space-lg);
+    flex-wrap: nowrap;
+    gap: 18px; /* Jarak proporsional 18px-22px */
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+  }
+
+  .nav-item {
+    flex-shrink: 0;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
   }
 
   .nav-link {
-    font-size: 0.9375rem;
+    font-size: 0.85rem; /* ~13.6px (13.5px-14px) */
     font-weight: 500;
     color: var(--color-text-muted);
-    padding: 6px 0;
+    padding: 6px 8px;
+    border-radius: var(--radius-pill);
     position: relative;
+    white-space: nowrap;
+    display: inline-block;
+    transition: all var(--duration-fast) ease;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
   }
 
   .nav-link:hover, .nav-link.active {
     color: var(--color-text-main);
+    background-color: var(--color-border-subtle);
   }
 
-  .nav-link::after {
+  /* Minimalist Islamic Arch Point Indicator on Active Navigation */
+  .nav-link.active::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 5px;
     background-color: var(--color-primary-base);
-    transition: width var(--duration-fast) ease;
-  }
-
-  .nav-link:hover::after, .nav-link.active::after {
-    width: 100%;
+    border-radius: 50%;
   }
 }
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+  flex-wrap: nowrap;
+  gap: 10px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
-/* Theme Toggle Button */
+/* Theme Toggle Button (Circular Simetris 36x36px, Zero Layout Shift) */
 .theme-toggle {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 36px;
   height: 36px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--color-border-subtle);
-  background-color: var(--color-surface-subtle);
+  min-width: 36px;
+  min-height: 36px;
+  max-width: 36px;
+  max-height: 36px;
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  border: 1.5px solid var(--color-border-subtle);
+  background-color: var(--color-surface-card);
   color: var(--color-text-main);
-  font-size: 1rem;
-  transition: all var(--duration-fast) ease;
+  font-size: 0.95rem;
+  line-height: 1;
+  padding: 0;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-paper-sm);
+  transition: transform var(--duration-fast) ease, border-color var(--duration-fast) ease, background-color var(--duration-fast) ease;
+  box-sizing: border-box;
 }
 
 .theme-toggle:hover {
-  background-color: var(--color-surface-card);
+  transform: scale(1.06);
   border-color: var(--color-border-active);
+  box-shadow: var(--shadow-paper-md);
+}
+
+.theme-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-size: 0.95rem;
 }
 
 .theme-icon-dark {
@@ -430,58 +708,162 @@ section {
 }
 
 [data-theme="dark"] .theme-icon-dark {
-  display: block;
+  display: inline-block;
 }
 
-/* Language Toggle */
+/* Language Toggle Pill (Sejajar Tinggi 36px) */
 .language-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  padding: 4px 8px;
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-sm);
+  justify-content: center;
+  height: 36px;
+  gap: 3px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0 8px;
+  border: 1.5px solid var(--color-border-subtle);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-card);
+  box-shadow: var(--shadow-paper-sm);
+  flex-shrink: 0;
+  white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .lang-btn {
   color: var(--color-text-muted);
-  padding: 2px 4px;
+  padding: 3px 6px;
+  border-radius: var(--radius-pill);
+  transition: all var(--duration-fast) ease;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .lang-btn.active {
-  color: var(--color-primary-base);
+  color: var(--color-surface-base);
+  background-color: var(--color-primary-base);
   font-weight: 700;
+}
+
+[data-theme="dark"] .lang-btn.active {
+  color: #131B15;
+  background-color: #F4EFDC;
 }
 
 .lang-divider {
   color: var(--color-border-subtle);
+  font-size: 0.75rem;
+  line-height: 1;
 }
 
-/* Mobile Hamburger Toggle */
+/* Tombol Mulai Konsultasi Header (Sejajar Tinggi 36px, Padding 10px 20px) */
+.header-actions .btn-compact {
+  height: 36px;
+  padding: 10px 20px;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  box-sizing: border-box;
+}
+
+/* Mobile Hamburger Toggle (Circular 36x36px) */
 .mobile-nav-toggle {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 6px;
+  align-items: center;
+  gap: 5px;
   width: 36px;
   height: 36px;
   padding: 4px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-border-subtle);
+  background-color: var(--color-surface-card);
   cursor: pointer;
+  box-shadow: var(--shadow-paper-sm);
+  flex-shrink: 0;
+}
+
+/* Sembunyikan Tombol CTA Header di Layar Tablet & Mobile (Pindah ke Drawer Hamburger) */
+@media (max-width: 991px) {
+  .header-actions .btn-compact {
+    display: none !important;
+  }
 }
 
 @media (min-width: 992px) {
   .mobile-nav-toggle {
     display: none;
   }
+  .mobile-nav-cta {
+    display: none;
+  }
+}
+
+/* Penyesuaian Presisi Navbar Mobile (max-width: 768px): Baris Atas Sejajar, Bebas Tabrakan */
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0 var(--space-sm);
+    gap: 8px;
+  }
+
+  .brand-logo-link {
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .brand-logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .brand-name {
+    font-size: 16px;
+    white-space: nowrap;
+    line-height: 1.2;
+  }
+
+  .header-actions {
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  .language-toggle {
+    height: 36px;
+    padding: 0 6px;
+    gap: 2px;
+    font-size: 0.72rem;
+  }
+
+  .lang-btn {
+    padding: 3px 5px;
+  }
+
+  .mobile-nav-toggle {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+  }
 }
 
 .menu-bar {
   display: block;
-  width: 22px;
+  width: 20px;
   height: 2px;
   background-color: var(--color-text-main);
+  border-radius: var(--radius-pill);
   transition: transform var(--duration-normal) var(--ease-smooth),
               opacity var(--duration-normal) ease;
 }
@@ -494,50 +876,212 @@ section {
   transform: translateY(-4px) rotate(-45deg);
 }
 
-/* Mobile Nav Drawer */
+/* Mobile Nav Drawer — Tersembunyi Rapi Tanpa Bocor, Terbuka Mulus Sebagai Laci Penuh */
 @media (max-width: 991px) {
   .site-nav {
     position: fixed;
     top: var(--header-height);
     left: 0;
+    right: 0;
     width: 100%;
     height: calc(100vh - var(--header-height));
+    height: calc(100dvh - var(--header-height));
     background-color: var(--color-surface-base);
-    padding: var(--space-xl) var(--space-md);
+    padding: var(--space-lg) var(--space-md) var(--space-2xl);
     transform: translateX(100%);
-    transition: transform var(--duration-normal) var(--ease-smooth);
+    visibility: hidden;
+    pointer-events: none;
+    opacity: 0;
+    transition: transform var(--duration-normal) var(--ease-smooth),
+                opacity var(--duration-normal) ease,
+                visibility var(--duration-normal) ease;
     overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     z-index: 999;
     border-top: 1px solid var(--color-border-subtle);
+    box-sizing: border-box;
   }
 
   .site-nav.is-open {
     transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
+    opacity: 1;
   }
 
   .nav-menu {
     display: flex;
     flex-direction: column;
-    gap: var(--space-md);
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: 100%;
+  }
+
+  .nav-item {
+    width: 100%;
+    display: block;
   }
 
   .nav-link {
     font-family: var(--font-display);
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 600;
     color: var(--color-text-main);
-    display: block;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--color-border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 18px;
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface-card);
+    border: 1px solid var(--color-border-subtle);
+    box-shadow: var(--shadow-paper-sm);
+    transition: all var(--duration-fast) ease;
+    white-space: nowrap;
+    text-decoration: none;
+    line-height: 1.3;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    background-color: var(--color-border-subtle);
+    border-color: var(--color-border-active);
+    transform: translateX(3px);
+  }
+
+  .mobile-nav-cta {
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px dashed var(--color-border-subtle);
+    width: 100%;
+  }
+
+  .mobile-nav-cta .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 24px;
+    font-size: 0.95rem;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-paper-button);
   }
 }
 
 /* ==========================================================================
-   6. HERO SECTION
+   6. LENGKUNGAN ORGANIK (ORGANIC CURVED WAVE SECTION DIVIDERS)
+   Paper-cut wave layers with multi-depth shadows & soft gradients
+   ========================================================================== */
+.paper-wave-divider {
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  pointer-events: none;
+  position: relative;
+  z-index: 2;
+  margin-top: -1px;
+  margin-bottom: -1px;
+  background-color: var(--color-surface-base);
+}
+
+.paper-wave-divider.wave-to-base {
+  background-color: var(--color-surface-subtle);
+}
+
+.paper-wave-svg {
+  display: block;
+  width: 100%;
+  height: 48px;
+}
+
+@media (min-width: 768px) {
+  .paper-wave-svg {
+    height: 72px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .paper-wave-svg {
+    height: 90px;
+  }
+}
+
+/* Wave Path Layer Stacking & 3D Paper-Cut Relief */
+.wave-back {
+  opacity: 0.92;
+}
+
+.wave-mid {
+  filter: var(--wave-shadow-mid);
+}
+
+.wave-front {
+  fill: var(--color-surface-subtle);
+  filter: var(--wave-shadow-front);
+}
+
+.wave-to-base .wave-front {
+  fill: var(--color-surface-base);
+}
+
+/* Gradient Stop Colors — Standard Wave (to subtle) */
+.wave-stop-back-start {
+  stop-color: var(--wave-grad-back-start);
+}
+.wave-stop-back-mid {
+  stop-color: var(--wave-grad-back-mid);
+}
+.wave-stop-back-end {
+  stop-color: var(--wave-grad-back-end);
+}
+
+.wave-stop-mid-start {
+  stop-color: var(--wave-grad-mid-start);
+}
+.wave-stop-mid-end {
+  stop-color: var(--wave-grad-mid-end);
+}
+
+/* Gradient Stop Colors — Inverted Wave (to base) */
+.wave-to-base .wave-stop-back-start {
+  stop-color: var(--wave-to-base-back-start);
+}
+.wave-to-base .wave-stop-back-mid {
+  stop-color: var(--wave-to-base-back-mid);
+}
+.wave-to-base .wave-stop-back-end {
+  stop-color: var(--wave-to-base-back-end);
+}
+
+.wave-to-base .wave-stop-mid-start {
+  stop-color: var(--wave-to-base-mid-start);
+}
+.wave-to-base .wave-stop-mid-end {
+  stop-color: var(--wave-to-base-mid-end);
+}
+
+/* ==========================================================================
+   7. HERO SECTION & MASTER ISLAMIC ARCH DIGITAL SHOWCASE FRAME
    ========================================================================== */
 .hero-section {
-  padding-top: calc(var(--space-3xl) + 20px);
-  padding-bottom: var(--space-4xl);
+  padding-top: calc(var(--space-3xl) + 12px);
+  padding-bottom: var(--space-3xl);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Organic Background Paper Cutout Relief in Hero */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  border-radius: 54% 46% 70% 30% / 40% 50% 50% 60%;
+  background: radial-gradient(circle, var(--color-arch-glow) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .hero-container {
@@ -545,6 +1089,8 @@ section {
   grid-template-columns: 1fr;
   gap: var(--space-2xl);
   align-items: center;
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 992px) {
@@ -556,7 +1102,7 @@ section {
 
 .hero-title {
   font-family: var(--font-display);
-  font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+  font-size: clamp(2.35rem, 4.6vw, 3.85rem);
   font-weight: 600;
   line-height: 1.15;
   color: var(--color-text-main);
@@ -566,9 +1112,9 @@ section {
 }
 
 .hero-lead {
-  font-size: clamp(1rem, 1.25vw, 1.2rem);
+  font-size: clamp(1.05rem, 1.25vw, 1.2rem);
   color: var(--color-text-muted);
-  line-height: 1.7;
+  line-height: 1.75;
   max-width: 580px;
   margin-bottom: var(--space-xl);
 }
@@ -590,57 +1136,268 @@ section {
   width: 100%;
 }
 
+/* --------------------------------------------------------------------------
+   3D LAYERED PAPER-CUT SHOWCASE WITH ISLAMIC ARCH & DIGITAL FRAMEWORK
+   -------------------------------------------------------------------------- */
 .mockup-placeholder {
-  aspect-ratio: 16 / 10;
   width: 100%;
-  border-radius: var(--radius-md);
-  background-color: var(--color-primary-base);
-  color: var(--color-text-inverse);
-  padding: var(--space-xl);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-card);
   border: 1px solid var(--color-border-subtle);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-paper-lg);
   position: relative;
   overflow: hidden;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  transition: transform var(--duration-normal) var(--ease-smooth),
+              box-shadow var(--duration-normal) var(--ease-smooth);
 }
 
-.mockup-placeholder::before {
-  content: '';
+.mockup-placeholder:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-paper-hover);
+}
+
+/* 3D Paper Cut Arch Backdrop Watermark */
+.showcase-arch-portal {
   position: absolute;
-  top: -40%;
-  right: -30%;
-  width: 320px;
-  height: 320px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0.85;
+}
+
+.arch-portal-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.arch-layer-outer {
+  fill: var(--color-paper-layer-2);
+  opacity: 0.35;
+}
+
+.arch-layer-mid {
+  fill: var(--color-paper-layer-1);
+  stroke: var(--color-border-subtle);
+  stroke-width: 1px;
+}
+
+.arch-layer-guide {
+  stroke: var(--color-arch-line);
+  stroke-width: 1.2px;
+}
+
+/* Digital Device Screen Presentation */
+.showcase-device-screen {
+  position: relative;
+  z-index: 1;
+  background-color: rgba(244, 239, 220, 0.45);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-paper-sm);
+}
+
+[data-theme="dark"] .showcase-device-screen {
+  background-color: rgba(19, 27, 21, 0.55);
+}
+
+/* Modern Browser Bar with Pill Address */
+.showcase-browser-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: var(--space-xs);
+  margin-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.browser-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.browser-dot {
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(244, 239, 220, 0.12) 0%, transparent 70%);
+  background-color: var(--color-border-paper);
+}
+
+.browser-url-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 12px;
+  background-color: var(--color-surface-card);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-pill);
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+}
+
+.url-lock-icon {
+  font-size: 0.65rem;
+  color: var(--color-primary-base);
+}
+
+.browser-badge-pill {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-border-subtle);
+  color: var(--color-primary-base);
+}
+
+/* Showcase Preview Canvas (Micro Layout Wireframes) */
+.showcase-preview-body {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 12px;
+  margin-bottom: var(--space-sm);
+}
+
+@media (max-width: 480px) {
+  .showcase-preview-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+.showcase-card {
+  background-color: var(--color-surface-card);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  box-shadow: 0 1px 3px var(--color-shadow-tint);
+}
+
+.showcase-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.showcase-pill-mini {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-primary-base);
+  background-color: var(--color-border-subtle);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.showcase-pill-indicator {
+  font-size: 0.65rem;
+  color: var(--color-accent-sage);
+  font-weight: 700;
+}
+
+.showcase-wireframe-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.wire-line {
+  height: 5px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-border-subtle);
+  display: block;
+}
+
+.wire-title {
+  width: 70%;
+  height: 7px;
+  background-color: var(--color-primary-base);
+  opacity: 0.4;
+}
+
+.wire-text {
+  width: 90%;
+}
+
+.wire-short {
+  width: 50%;
+}
+
+.showcase-grid-micro {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+.micro-post {
+  aspect-ratio: 1;
+  background-color: var(--color-border-subtle);
+  border-radius: 4px;
+  border: 1px solid rgba(52, 76, 56, 0.08);
+}
+
+/* Floating Capabilities Pill Tags */
+.showcase-floating-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.floating-tag {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-card);
+  border: 1px solid var(--color-border-subtle);
+  color: var(--color-primary-base);
+  box-shadow: 0 1px 2px var(--color-shadow-tint);
+}
+
+/* Official Editorial Metadata Caption (Original Text Preserved 100%) */
+.showcase-meta {
+  position: relative;
+  z-index: 1;
+  padding-top: var(--space-xs);
+  border-top: 1px solid var(--color-border-subtle);
+  text-align: center;
 }
 
 .placeholder-tag {
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--color-accent-sage);
-  margin-bottom: var(--space-xs);
-  font-weight: 600;
+  color: var(--color-primary-base);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 2px;
 }
 
 .placeholder-caption {
-  font-size: 0.9375rem;
-  max-width: 320px;
-  color: rgba(244, 239, 220, 0.9);
+  font-size: 0.84rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
 }
 
 /* ==========================================================================
-   7. FILOSOFI & TENTANG KAMI
+   8. FILOSOFI & TENTANG KAMI (ABOUT SECTION & 3D PILLAR CARDS)
    ========================================================================== */
 .about-section {
   background-color: var(--color-surface-subtle);
-  border-top: 1px solid var(--color-border-subtle);
-  border-bottom: 1px solid var(--color-border-subtle);
+  position: relative;
 }
 
 .about-container {
@@ -659,7 +1416,7 @@ section {
 .about-narrative p {
   font-size: 1.0625rem;
   color: var(--color-text-muted);
-  line-height: 1.75;
+  line-height: 1.8;
   margin-bottom: var(--space-md);
 }
 
@@ -673,30 +1430,52 @@ section {
   gap: var(--space-md);
 }
 
+/* 3D Layered Paper-Cut Pillar Cards */
 .pillar-card {
   background-color: var(--color-surface-card);
   padding: var(--space-md) var(--space-lg);
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border-subtle);
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--duration-fast) ease;
+  box-shadow: var(--shadow-paper-sm);
+  transition: transform var(--duration-fast) var(--ease-smooth),
+              box-shadow var(--duration-fast) var(--ease-smooth),
+              border-color var(--duration-fast) ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle Architectural Islamic Arch watermark in pillar cards */
+.pillar-card::before {
+  content: '';
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  width: 80px;
+  height: 110px;
+  border-radius: 40px 40px 0 0;
+  border: 1px solid var(--color-border-subtle);
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 .pillar-card:hover {
-  transform: translateX(4px);
+  transform: translateX(6px);
+  box-shadow: var(--shadow-paper-md);
+  border-color: var(--color-border-active);
 }
 
 .pillar-number {
   font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--color-accent-sage);
-  display: block;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-primary-base);
+  display: inline-block;
   margin-bottom: 4px;
+  line-height: 1;
 }
 
 .pillar-title {
-  font-size: 1.125rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: var(--color-text-main);
   margin-bottom: 6px;
@@ -705,11 +1484,11 @@ section {
 .pillar-desc {
   font-size: 0.9375rem;
   color: var(--color-text-muted);
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
 /* ==========================================================================
-   8. LAYANAN TERKURASI
+   9. LAYANAN TERKURASI (SERVICES & 3D LAYERED CARDS)
    ========================================================================== */
 .services-cluster {
   margin-bottom: var(--space-3xl);
@@ -725,7 +1504,7 @@ section {
 
 .cluster-title {
   font-family: var(--font-display);
-  font-size: 1.6rem;
+  font-size: 1.65rem;
   font-weight: 600;
   color: var(--color-text-main);
   margin-bottom: 4px;
@@ -754,24 +1533,30 @@ section {
   }
 }
 
+/* 3D Layered Paper-Cut Service Card */
 .service-card {
   background-color: var(--color-surface-card);
-  padding: var(--space-lg);
-  border-radius: var(--radius-md);
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
   border: 1px solid var(--color-border-subtle);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--duration-fast) ease, border-color var(--duration-fast) ease;
+  box-shadow: var(--shadow-paper-sm);
+  transition: transform var(--duration-normal) var(--ease-smooth),
+              box-shadow var(--duration-normal) var(--ease-smooth),
+              border-color var(--duration-fast) ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .service-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-5px);
   border-color: var(--color-border-active);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-paper-hover);
 }
 
+/* Service Pill Tag */
 .service-tag {
   font-size: 0.6875rem;
   font-weight: 700;
@@ -780,40 +1565,44 @@ section {
   letter-spacing: 0.05em;
   margin-bottom: var(--space-xs);
   display: inline-block;
+  padding: 3px 10px;
+  background-color: var(--color-border-subtle);
+  border-radius: var(--radius-pill);
 }
 
 .service-name {
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 1.4rem;
   font-weight: 600;
   color: var(--color-text-main);
   margin-bottom: var(--space-sm);
+  line-height: 1.3;
 }
 
 .service-desc {
   font-size: 0.9375rem;
   color: var(--color-text-muted);
-  line-height: 1.6;
+  line-height: 1.65;
   margin-bottom: var(--space-lg);
 }
 
 .service-cta {
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-primary-base);
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   margin-top: auto;
+  transition: gap var(--duration-fast) ease;
 }
 
 .service-cta:hover {
-  color: var(--color-primary-dark);
-  text-decoration: underline;
+  gap: 10px;
 }
 
 /* ==========================================================================
-   9. PORTOFOLIO TERPILIH & FILTER
+   10. PORTOFOLIO TERPILIH (FILTER PILLS & MODERN SHOWCASE FRAMES)
    ========================================================================== */
 .portfolio-filters {
   display: flex;
@@ -822,26 +1611,36 @@ section {
   margin-bottom: var(--space-xl);
 }
 
+/* Pill Tabs for Portfolio Filtering */
 .filter-btn {
-  padding: 8px 18px;
+  padding: 10px 22px;
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-text-muted);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--color-border-subtle);
+  border-radius: var(--radius-pill); /* Pill */
   background-color: var(--color-surface-card);
-  transition: all var(--duration-fast) ease;
+  box-shadow: var(--shadow-paper-sm);
+  transition: all var(--duration-fast) var(--ease-smooth);
 }
 
 .filter-btn:hover {
   color: var(--color-text-main);
   border-color: var(--color-border-active);
+  transform: translateY(-1px);
 }
 
 .filter-btn.active {
   background-color: var(--color-primary-base);
-  color: var(--color-text-inverse);
+  color: var(--color-surface-base);
   border-color: var(--color-primary-base);
+  box-shadow: var(--shadow-paper-md);
+}
+
+[data-theme="dark"] .filter-btn.active {
+  background-color: #F4EFDC;
+  color: #131B15;
+  border-color: #F4EFDC;
 }
 
 .portfolio-grid {
@@ -856,14 +1655,16 @@ section {
   }
 }
 
+/* 3D Paper-Cut Portfolio Card */
 .portfolio-card {
   background-color: var(--color-surface-card);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   border: 1px solid var(--color-border-subtle);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-paper-sm);
   transition: transform var(--duration-normal) var(--ease-smooth),
-              opacity var(--duration-normal) ease;
+              box-shadow var(--duration-normal) var(--ease-smooth),
+              border-color var(--duration-fast) ease;
 }
 
 .portfolio-card.is-hidden {
@@ -871,8 +1672,9 @@ section {
 }
 
 .portfolio-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-paper-hover);
+  border-color: var(--color-border-active);
 }
 
 .portfolio-media {
@@ -880,41 +1682,84 @@ section {
   width: 100%;
 }
 
+/* Modern Showcase Frame (Arched Aperture & Digital Bezel) */
 .media-container-placeholder {
   aspect-ratio: 16 / 10;
   background-color: var(--color-surface-subtle);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: var(--space-md);
+  padding: var(--space-lg);
   text-align: center;
   border-bottom: 1px solid var(--color-border-subtle);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Islamic Arch Portal watermark inside portfolio showcase frames */
+.media-container-placeholder::before {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 180px;
+  border-radius: 70px 70px 0 0;
+  border: 1.5px dashed var(--color-arch-line);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Aspect ratio adaptations */
+.portfolio-card[data-category="social"]:nth-child(2) .media-container-placeholder {
+  aspect-ratio: 4 / 5;
+}
+
+.portfolio-card[data-category="social"]:nth-child(3) .media-container-placeholder {
+  aspect-ratio: 9 / 16;
+  max-height: 380px;
 }
 
 .placeholder-label {
   font-size: 0.8125rem;
   color: var(--color-text-muted);
-  font-weight: 500;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+  background-color: var(--color-surface-card);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border-subtle);
 }
 
+/* Status Pill Badges */
 .project-badge {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 14px;
+  right: 14px;
   font-size: 0.6875rem;
   font-weight: 700;
   text-transform: uppercase;
-  padding: 4px 8px;
-  border-radius: var(--radius-sm);
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-paper-sm);
+  z-index: 2;
 }
 
 .client-project {
   background-color: var(--color-primary-base);
-  color: var(--color-text-inverse);
+  color: var(--color-surface-base);
+}
+
+[data-theme="dark"] .client-project {
+  background-color: #F4EFDC;
+  color: #131B15;
 }
 
 .concept-project {
-  background-color: var(--color-surface-subtle);
+  background-color: var(--color-surface-card);
   color: var(--color-text-main);
   border: 1px solid var(--color-border-subtle);
 }
@@ -925,18 +1770,21 @@ section {
 
 .portfolio-category {
   font-size: 0.75rem;
-  color: var(--color-accent-sage);
-  font-weight: 600;
+  color: var(--color-primary-base);
+  font-weight: 700;
   display: block;
   margin-bottom: 4px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .portfolio-title {
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 1.4rem;
   font-weight: 600;
   color: var(--color-text-main);
   margin-bottom: var(--space-xs);
+  line-height: 1.3;
 }
 
 .portfolio-desc {
@@ -955,12 +1803,11 @@ section {
 }
 
 /* ==========================================================================
-   10. MENGAPA SAKTAH SPACE
+   11. MENGAPA SAKTAH SPACE (3D PAPER CARDS & ARCH ACCENTS)
    ========================================================================== */
 .why-us-section {
-  background-color: var(--color-surface-subtle);
-  border-top: 1px solid var(--color-border-subtle);
-  border-bottom: 1px solid var(--color-border-subtle);
+  background-color: var(--color-surface-base);
+  position: relative;
 }
 
 .why-us-grid {
@@ -986,20 +1833,32 @@ section {
   padding: var(--space-lg);
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border-subtle);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-paper-sm);
+  transition: transform var(--duration-fast) var(--ease-smooth),
+              box-shadow var(--duration-fast) var(--ease-smooth),
+              border-color var(--duration-fast) ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.why-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-paper-md);
+  border-color: var(--color-border-active);
 }
 
 .why-number {
   font-family: var(--font-display);
-  font-size: 2rem;
-  font-weight: 600;
-  color: var(--color-accent-sage);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--color-primary-base);
   display: block;
   margin-bottom: var(--space-xs);
+  line-height: 1;
 }
 
 .why-title {
-  font-size: 1.125rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: var(--color-text-main);
   margin-bottom: var(--space-xs);
@@ -1012,7 +1871,7 @@ section {
 }
 
 /* ==========================================================================
-   11. ALUR KERJA (TIMELINE)
+   12. ALUR KERJA (TIMELINE WITH ISLAMIC ARCH MARKERS)
    ========================================================================== */
 .process-timeline {
   display: grid;
@@ -1031,38 +1890,58 @@ section {
 .timeline-step {
   background-color: var(--color-surface-card);
   padding: var(--space-lg);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   border: 1px solid var(--color-border-subtle);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-paper-sm);
   position: relative;
+  transition: transform var(--duration-fast) var(--ease-smooth),
+              box-shadow var(--duration-fast) var(--ease-smooth),
+              border-color var(--duration-fast) ease;
 }
 
+.timeline-step:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-paper-md);
+  border-color: var(--color-border-active);
+}
+
+/* Step marker shaped as a delicate Islamic arch capsule */
 .step-marker {
   margin-bottom: var(--space-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 60px;
+  border-radius: 26px 26px 12px 12px; /* Arch shape */
+  background-color: var(--color-surface-subtle);
+  border: 1.5px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-paper-sm);
 }
 
 .step-num {
   font-family: var(--font-display);
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 700;
   color: var(--color-primary-base);
 }
 
 .step-title {
-  font-size: 1.125rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: var(--color-text-main);
   margin-bottom: var(--space-xs);
+  line-height: 1.35;
 }
 
 .step-desc {
   font-size: 0.9375rem;
   color: var(--color-text-muted);
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 /* ==========================================================================
-   12. TESTIMONI MITRA
+   13. TESTIMONI MITRA (3D PAPER QUOTE CARDS)
    ========================================================================== */
 .testimonials-grid {
   display: grid;
@@ -1079,21 +1958,41 @@ section {
 .testimonial-card {
   background-color: var(--color-surface-card);
   padding: var(--space-xl);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   border: 1px solid var(--color-border-subtle);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-paper-sm);
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--duration-normal) var(--ease-smooth),
+              box-shadow var(--duration-normal) var(--ease-smooth),
+              border-color var(--duration-fast) ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-paper-hover);
+  border-color: var(--color-border-active);
 }
 
 .testimonial-quote p {
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-style: italic;
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--color-text-main);
   margin-bottom: var(--space-lg);
+  position: relative;
+  z-index: 1;
+}
+
+.testimonial-author {
+  position: relative;
+  z-index: 1;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--color-border-subtle);
 }
 
 .author-name {
@@ -1110,7 +2009,7 @@ section {
 }
 
 /* ==========================================================================
-   13. SKEMA KERJA SAMA & HARGA
+   14. SKEMA KERJA SAMA & HARGA (3D PRICING CARDS & PILL CTAS)
    ========================================================================== */
 .pricing-grid {
   display: grid;
@@ -1131,35 +2030,49 @@ section {
   }
 }
 
+/* 3D Layered Paper-Cut Pricing Card */
 .pricing-card {
   background-color: var(--color-surface-card);
   padding: var(--space-xl) var(--space-md);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--color-border-subtle);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-paper-sm);
   position: relative;
-  transition: transform var(--duration-fast) ease;
+  transition: transform var(--duration-fast) var(--ease-smooth),
+              box-shadow var(--duration-fast) var(--ease-smooth),
+              border-color var(--duration-fast) ease;
 }
 
 .pricing-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-paper-hover);
+  border-color: var(--color-border-active);
 }
 
+/* Featured / Best Value Card with Heightened Paper Elevation */
 .pricing-featured {
-  border-color: var(--color-primary-base);
-  border-width: 2px;
-  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-active);
+  box-shadow: var(--shadow-paper-md);
+  background-color: var(--color-surface-card);
+}
+
+.pricing-featured:hover {
+  box-shadow: var(--shadow-paper-hover);
 }
 
 .featured-badge {
   background-color: var(--color-primary-base);
-  color: var(--color-text-inverse);
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
+  color: var(--color-surface-base);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+}
+
+[data-theme="dark"] .featured-badge {
+  background-color: #F4EFDC;
+  color: #131B15;
 }
 
 .pricing-tier-tag {
@@ -1174,10 +2087,11 @@ section {
 
 .tier-name {
   font-family: var(--font-display);
-  font-size: 1.75rem;
+  font-size: 1.85rem;
   font-weight: 600;
   color: var(--color-text-main);
   margin-bottom: var(--space-sm);
+  line-height: 1.2;
 }
 
 .tier-price {
@@ -1191,9 +2105,10 @@ section {
 }
 
 .price-amount {
-  font-size: 1.85rem;
-  font-weight: 700;
+  font-size: 1.95rem;
+  font-weight: 800;
   color: var(--color-primary-base);
+  letter-spacing: -0.02em;
 }
 
 .tier-description {
@@ -1207,14 +2122,15 @@ section {
   margin-bottom: var(--space-xl);
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: 10px;
 }
 
 .pricing-features li {
   font-size: 0.875rem;
   color: var(--color-text-main);
-  padding-left: 20px;
+  padding-left: 24px;
   position: relative;
+  line-height: 1.5;
 }
 
 .pricing-features li::before {
@@ -1222,16 +2138,15 @@ section {
   position: absolute;
   left: 0;
   color: var(--color-primary-base);
-  font-weight: 700;
+  font-weight: 800;
 }
 
 /* ==========================================================================
-   14. FAQ (ACCORDION)
+   15. FAQ (3D EXPANDABLE PAPER ACCORDION)
    ========================================================================== */
 .faq-section {
-  background-color: var(--color-surface-subtle);
-  border-top: 1px solid var(--color-border-subtle);
-  border-bottom: 1px solid var(--color-border-subtle);
+  background-color: var(--color-surface-base);
+  position: relative;
 }
 
 .faq-container {
@@ -1253,6 +2168,7 @@ section {
   background-color: var(--color-surface-card);
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-paper-sm);
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
@@ -1261,19 +2177,21 @@ section {
 .faq-accordion-list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: 12px;
 }
 
 .faq-item {
   background-color: var(--color-surface-card);
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-paper-sm);
   overflow: hidden;
-  transition: border-color var(--duration-fast) ease;
+  transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
 }
 
 .faq-item[open] {
   border-color: var(--color-border-active);
+  box-shadow: var(--shadow-paper-md);
 }
 
 .faq-question {
@@ -1294,7 +2212,7 @@ section {
 
 .faq-question::after {
   content: '+';
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 400;
   color: var(--color-primary-base);
   transition: transform var(--duration-fast) ease;
@@ -1312,17 +2230,38 @@ section {
 }
 
 /* ==========================================================================
-   15. KONTAK & KONSULTASI (DARK CANVAS)
+   16. KONTAK & KONSULTASI (DARK CANVAS & PILL FORM INPUTS)
    ========================================================================== */
+.contact-section {
+  background-color: var(--color-surface-subtle);
+  position: relative;
+}
+
 .contact-card-surface {
   background-color: var(--color-primary-surface);
   color: var(--color-text-inverse);
   padding: var(--space-xl);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-2xl);
   border: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-paper-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle Architectural Islamic Arch watermark inside contact surface */
+.contact-card-surface::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 400px;
+  height: 550px;
+  border-radius: 200px 200px 0 0;
+  border: 1px solid rgba(244, 239, 220, 0.08);
+  pointer-events: none;
 }
 
 @media (min-width: 992px) {
@@ -1334,7 +2273,7 @@ section {
 
 .contact-main-heading {
   font-family: var(--font-display);
-  font-size: clamp(1.85rem, 3.2vw, 2.5rem);
+  font-size: clamp(1.9rem, 3.2vw, 2.6rem);
   font-weight: 600;
   line-height: 1.2;
   margin-top: var(--space-xs);
@@ -1344,8 +2283,8 @@ section {
 
 .contact-subtext {
   font-size: 1rem;
-  color: rgba(244, 239, 220, 0.8);
-  line-height: 1.65;
+  color: rgba(244, 239, 220, 0.85);
+  line-height: 1.7;
   margin-bottom: var(--space-xl);
 }
 
@@ -1358,21 +2297,23 @@ section {
 
 .response-note {
   font-size: 0.8125rem;
-  color: rgba(244, 239, 220, 0.6);
+  color: rgba(244, 239, 220, 0.65);
   display: block;
   margin-top: var(--space-xs);
 }
 
-/* Inquiry Form */
+/* Inquiry Form Wrapper with Paper-Cut Glassmorphism */
 .inquiry-form-wrapper {
   background-color: rgba(255, 255, 255, 0.04);
-  padding: var(--space-lg);
-  border-radius: var(--radius-md);
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
   border: 1px solid rgba(244, 239, 220, 0.12);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .form-title {
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-weight: 700;
   margin-bottom: 4px;
   color: #F4EFDC;
@@ -1393,33 +2334,47 @@ section {
   font-size: 0.8125rem;
   font-weight: 600;
   color: #EAE4CF;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
-.form-input, .form-select, .form-textarea {
+/* Pill Form Inputs & Selects */
+.form-input, .form-select {
   width: 100%;
-  padding: 10px 14px;
+  padding: 12px 20px;
   background-color: var(--color-input-bg);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--color-border-subtle);
+  border-radius: var(--radius-pill); /* Pill */
   color: var(--color-text-main);
   font-family: inherit;
   font-size: 0.9375rem;
-  transition: border-color var(--duration-fast) ease;
+  transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+}
+
+.form-textarea {
+  width: 100%;
+  padding: 14px 20px;
+  background-color: var(--color-input-bg);
+  border: 1.5px solid var(--color-border-subtle);
+  border-radius: var(--radius-md); /* Smooth Rounded */
+  color: var(--color-text-main);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+  resize: vertical;
 }
 
 .form-input:focus, .form-select:focus, .form-textarea:focus {
   outline: none;
   border-color: var(--color-border-active);
-  box-shadow: 0 0 0 2px rgba(52, 76, 56, 0.25);
+  box-shadow: 0 0 0 3px rgba(244, 239, 220, 0.25);
 }
 
 .form-feedback {
   margin-top: var(--space-sm);
   font-size: 0.875rem;
   line-height: 1.5;
-  border-radius: var(--radius-sm);
-  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
   display: none;
 }
 
@@ -1434,7 +2389,7 @@ section {
 }
 
 /* ==========================================================================
-   16. FOOTER
+   17. FOOTER UTILITARIAN
    ========================================================================== */
 .site-footer {
   background-color: var(--color-primary-surface);
@@ -1442,6 +2397,7 @@ section {
   padding-top: var(--space-3xl);
   padding-bottom: var(--space-xl);
   border-top: 1px solid rgba(244, 239, 220, 0.1);
+  position: relative;
 }
 
 .footer-grid {
@@ -1538,7 +2494,7 @@ section {
 }
 
 /* ==========================================================================
-   17. MODAL DIALOG (CONTACT NOTICE)
+   18. MODAL DIALOG (3D PAPER-CUT CONTACT NOTICE)
    ========================================================================== */
 .notice-modal {
   position: fixed;
@@ -1568,7 +2524,8 @@ section {
   width: 100%;
   height: 100%;
   background-color: rgba(14, 22, 16, 0.75);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .notice-modal-content {
@@ -1578,9 +2535,9 @@ section {
   max-width: 480px;
   width: 100%;
   padding: var(--space-xl);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   border: 1px solid var(--color-border-subtle);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-paper-lg);
   transform: translateY(20px);
   transition: transform var(--duration-normal) var(--ease-smooth);
 }
@@ -1598,7 +2555,7 @@ section {
 
 .modal-title {
   font-family: var(--font-display);
-  font-size: 1.4rem;
+  font-size: 1.45rem;
   font-weight: 600;
 }
 
@@ -1607,6 +2564,17 @@ section {
   line-height: 1;
   color: var(--color-text-muted);
   cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  transition: background-color var(--duration-fast) ease;
+}
+
+.modal-close-btn:hover {
+  background-color: var(--color-border-subtle);
 }
 
 .modal-body {
@@ -1627,7 +2595,7 @@ section {
 }
 
 /* ==========================================================================
-   18. SCROLL REVEAL ANIMATIONS
+   19. SCROLL REVEAL ANIMATIONS
    ========================================================================== */
 .reveal-item {
   opacity: 0;
