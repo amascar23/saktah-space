@@ -48,6 +48,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // Tutup menu saat mengklik area di luar navigasi mobile
+    document.addEventListener('click', (e) => {
+      if (siteNav.classList.contains('is-open') && !siteNav.contains(e.target) && !navToggle.contains(e.target)) {
+        toggleNav(false);
+      }
+    });
+
     // Tutup menu jika layar di-resize ke ukuran desktop
     window.addEventListener('resize', () => {
       if (window.innerWidth >= 992 && siteNav.classList.contains('is-open')) {
@@ -172,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // 2B. PACKAGE SIMULATION MODAL (RINCIAN & SIMULASI PAKET)
+  // 2B. PACKAGE SIMULATION MODAL (RINCIAN & SIMULASI PAKET DENGAN ESTIMATOR LIVE)
   // =========================================================================
   const packageSimulasiModal = document.getElementById('packageSimulasiModal');
   const simulasiBackdrop = document.getElementById('simulasiBackdrop');
@@ -186,6 +193,58 @@ document.addEventListener('DOMContentLoaded', () => {
   const simulasiRevision = document.getElementById('simulasiRevision');
   const simulasiGuarantee = document.getElementById('simulasiGuarantee');
   const simulasiWaBtn = document.getElementById('simulasiWaBtn');
+  const simulasiTotalDisplay = document.getElementById('simulasiTotalDisplay');
+  const addonChecks = packageSimulasiModal ? packageSimulasiModal.querySelectorAll('.simulasi-addon-check') : [];
+
+  let currentBasePrice = 0;
+  let currentPackageName = 'Paket Pilihan';
+
+  const formatRupiah = (num) => 'Rp' + num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+  const updateSimulasiCalculation = () => {
+    let total = currentBasePrice;
+    const selectedAddons = [];
+
+    addonChecks.forEach((chk) => {
+      if (chk.checked) {
+        const addonPrice = parseInt(chk.getAttribute('data-price'), 10) || 0;
+        const addonName = chk.getAttribute('data-name') || '';
+        total += addonPrice;
+        selectedAddons.push({ name: addonName, price: addonPrice });
+      }
+    });
+
+    const formattedTotal = formatRupiah(total);
+    if (simulasiTotalDisplay) simulasiTotalDisplay.textContent = formattedTotal;
+    if (simulasiPriceBadge) simulasiPriceBadge.textContent = formattedTotal;
+
+    if (simulasiWaBtn) {
+      const waLines = [
+        "Assalamu'alaikum / Halo Tim Saktah Space,",
+        "",
+        "Saya tertarik memesan dan berkonsultasi mengenai paket layanan:",
+        `• Paket Pilihan: ${currentPackageName} (${formatRupiah(currentBasePrice)})`
+      ];
+
+      if (selectedAddons.length > 0) {
+        waLines.push("• Fitur Tambahan (Add-Ons):");
+        selectedAddons.forEach((a) => {
+          waLines.push(`  - ${a.name} (+${formatRupiah(a.price)})`);
+        });
+      }
+
+      waLines.push(`• Total Estimasi Investasi: ${formattedTotal}`);
+      waLines.push("");
+      waLines.push("Mohon informasi ketersediaan jadwal pengerjaan dan langkah selanjutnya. Terima kasih.");
+
+      simulasiWaBtn.href = `https://wa.me/${SAKTAH_WA_NUMBER}?text=${encodeURIComponent(waLines.join('\n'))}`;
+    }
+  };
+
+  // Pasang listener pada checkbox add-on simulasi
+  addonChecks.forEach((chk) => {
+    chk.addEventListener('change', updateSimulasiCalculation);
+  });
 
   const openSimulasiModal = (btn) => {
     if (!packageSimulasiModal || !btn) return;
@@ -199,13 +258,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const revision = btn.getAttribute('data-revision') || '2x Putaran Revisi';
     const guarantee = btn.getAttribute('data-guarantee') || 'Jaminan kualitas & kejujuran visual Saktah Space';
 
+    currentPackageName = name;
+    const parsedPrice = parseInt(price.replace(/[^0-9]/g, ''), 10);
+    currentBasePrice = isNaN(parsedPrice) ? 0 : parsedPrice;
+
     if (simulasiTierTag) simulasiTierTag.textContent = tag;
     if (simulasiModalTitle) simulasiModalTitle.textContent = name;
-    if (simulasiPriceBadge) simulasiPriceBadge.textContent = price;
     if (simulasiModalDesc) simulasiModalDesc.textContent = desc;
     if (simulasiLeadTime) simulasiLeadTime.textContent = leadtime;
     if (simulasiRevision) simulasiRevision.textContent = revision;
     if (simulasiGuarantee) simulasiGuarantee.textContent = guarantee;
+
+    // Reset pilihan add-on ke posisi awal
+    addonChecks.forEach((chk) => {
+      chk.checked = false;
+    });
 
     // Render deliverables
     if (simulasiDeliverablesList) {
@@ -218,11 +285,8 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Set WhatsApp link
-    if (simulasiWaBtn) {
-      const waText = `Halo Saktah Space, saya tertarik untuk memesan dan berkonsultasi mengenai ${name} (${price}).`;
-      simulasiWaBtn.href = `https://wa.me/${SAKTAH_WA_NUMBER}?text=${encodeURIComponent(waText)}`;
-    }
+    // Perbarui kalkulasi harga dan pesan WhatsApp
+    updateSimulasiCalculation();
 
     packageSimulasiModal.classList.add('is-active');
     packageSimulasiModal.setAttribute('aria-hidden', 'false');
@@ -317,6 +381,50 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
+  // 4B. LANGUAGE SWITCHER TOAST FEEDBACK
+  // =========================================================================
+  const langBtns = document.querySelectorAll('.lang-btn');
+  let langToast = document.querySelector('.lang-toast');
+  if (!langToast) {
+    langToast = document.createElement('div');
+    langToast.className = 'lang-toast';
+    langToast.setAttribute('role', 'status');
+    langToast.setAttribute('aria-live', 'polite');
+    document.body.appendChild(langToast);
+  }
+
+  let toastTimeout = null;
+  const showLangToast = (message) => {
+    if (!langToast) return;
+    langToast.textContent = message;
+    langToast.classList.add('is-visible');
+    if (toastTimeout) clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+      langToast.classList.remove('is-visible');
+    }, 3200);
+  };
+
+  if (langBtns.length > 0) {
+    langBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const lang = btn.getAttribute('data-lang');
+        langBtns.forEach((b) => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+
+        if (lang === 'en') {
+          showLangToast('English version is being prepared. Consultations are available in ID & EN via WhatsApp.');
+        } else {
+          showLangToast('Bahasa Indonesia aktif.');
+        }
+      });
+    });
+  }
+
+  // =========================================================================
   // 5. LIGHTWEIGHT SCROLL REVEAL ANIMATIONS (WITH REDUCED-MOTION RESPECT)
   // =========================================================================
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -391,6 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!noticeModal) return;
     noticeModal.classList.remove('is-active');
     noticeModal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('menu-open');
   };
 
   if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeNoticeModal);
@@ -500,7 +609,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       },
       {
-        threshold: 0.3
+        threshold: 0.2,
+        rootMargin: '-20% 0px -60% 0px'
       }
     );
 

@@ -775,6 +775,19 @@ section {
   box-shadow: var(--shadow-paper-sm);
   transition: transform var(--duration-fast) ease, border-color var(--duration-fast) ease, background-color var(--duration-fast) ease;
   box-sizing: border-box;
+  position: relative;
+}
+
+.theme-toggle::after,
+.mobile-nav-toggle::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  left: -5px;
+  right: -5px;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .theme-toggle:hover {
@@ -881,6 +894,7 @@ section {
   cursor: pointer;
   box-shadow: var(--shadow-paper-sm);
   flex-shrink: 0;
+  position: relative;
 }
 
 /* Sembunyikan Tombol CTA Header di Layar Tablet & Mobile (Pindah ke Drawer Hamburger) */
@@ -1729,6 +1743,10 @@ section {
 /* Pill Tabs for Portfolio Filtering */
 .filter-btn {
   padding: 10px 22px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-text-muted);
@@ -2060,6 +2078,13 @@ section {
   position: relative;
 }
 
+@media (min-width: 640px) and (max-width: 991px) {
+  .process-timeline {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+}
+
 @media (min-width: 992px) {
   .process-timeline {
     grid-template-columns: repeat(4, 1fr);
@@ -2138,9 +2163,24 @@ section {
   gap: var(--space-lg);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) and (max-width: 991px) {
+  .testimonials-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+
+  .testimonials-grid .testimonial-card:nth-child(3) {
+    grid-column: 1 / -1;
+    max-width: 680px;
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 992px) {
   .testimonials-grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
   }
 }
 
@@ -2640,13 +2680,13 @@ section {
 /* High-Contrast Form Input Placeholders & Dropdown Options */
 .form-input::placeholder,
 .form-textarea::placeholder {
-  color: rgba(52, 76, 56, 0.6);
+  color: rgba(52, 76, 56, 0.72);
   font-size: 0.875rem;
 }
 
 [data-theme="dark"] .form-input::placeholder,
 [data-theme="dark"] .form-textarea::placeholder {
-  color: rgba(244, 239, 220, 0.55);
+  color: rgba(244, 239, 220, 0.7);
 }
 
 .form-select option {
@@ -2662,11 +2702,11 @@ section {
 }
 
 .form-select option:disabled {
-  color: rgba(52, 76, 56, 0.45);
+  color: rgba(52, 76, 56, 0.72);
 }
 
 [data-theme="dark"] .form-select option:disabled {
-  color: rgba(244, 239, 220, 0.45);
+  color: rgba(244, 239, 220, 0.7);
 }
 
 .form-feedback {
@@ -2885,8 +2925,10 @@ section {
   line-height: 1;
   color: var(--color-text-muted);
   cursor: pointer;
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2985,10 +3027,10 @@ section {
 }
 
 .case-study-close-btn {
-  width: 36px;
-  height: 36px;
-  min-width: 36px;
-  min-height: 36px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 50%;
   border: 1.5px solid var(--color-border-subtle);
   background-color: var(--color-surface-base);
@@ -3168,6 +3210,182 @@ section {
 .font-bold {
   font-weight: 700;
   color: var(--color-text-main);
+}
+
+/* ==========================================================================
+   19B. SERVICE ESTIMATOR / SIMULASI CUSTOMIZER
+   ========================================================================== */
+.simulasi-customizer {
+  background-color: var(--color-surface-subtle);
+  background-image: var(--grad-surface-card);
+  border: 1.5px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-paper-sm);
+  margin-bottom: var(--space-md);
+}
+
+.simulasi-customizer-note {
+  font-size: 0.84rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-sm);
+  line-height: 1.5;
+}
+
+.simulasi-options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: var(--space-md);
+}
+
+.simulasi-option-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-card);
+  border: 1px solid var(--color-border-subtle);
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+
+.simulasi-option-item:hover {
+  border-color: var(--color-border-active);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-paper-sm);
+}
+
+.simulasi-addon-check {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.option-custom-checkbox {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  border-radius: 6px;
+  border: 1.5px solid var(--color-border-subtle);
+  background-color: var(--color-surface-base);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+  transition: all var(--duration-fast) ease;
+  position: relative;
+}
+
+.simulasi-addon-check:checked+.option-custom-checkbox {
+  background-color: var(--color-primary-base);
+  border-color: var(--color-primary-base);
+  box-shadow: 0 1px 4px var(--color-shadow-tint);
+}
+
+.simulasi-addon-check:checked+.option-custom-checkbox::after {
+  content: '';
+  width: 5px;
+  height: 9px;
+  border: solid var(--color-surface-base);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) translate(-1px, -1px);
+}
+
+[data-theme="dark"] .simulasi-addon-check:checked+.option-custom-checkbox {
+  background-color: #F4EFDC;
+  border-color: #F4EFDC;
+}
+
+[data-theme="dark"] .simulasi-addon-check:checked+.option-custom-checkbox::after {
+  border-color: #131B15;
+}
+
+.simulasi-option-item:has(.simulasi-addon-check:checked) {
+  border-color: var(--color-border-active);
+  background-image: var(--grad-surface-card-hover);
+}
+
+.option-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.875rem;
+}
+
+.option-title {
+  color: var(--color-text-main);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.option-sub {
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+}
+
+.simulasi-total-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-card);
+  border: 1.5px dashed var(--color-border-subtle);
+}
+
+.simulasi-summary-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+
+.simulasi-summary-value {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-primary-base);
+  letter-spacing: -0.01em;
+}
+
+/* ==========================================================================
+   19C. LANGUAGE SWITCHER TOAST FEEDBACK
+   ========================================================================== */
+.lang-toast {
+  position: fixed;
+  bottom: 86px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background-color: var(--color-surface-card);
+  background-image: var(--grad-surface-card-elevated);
+  border: 1.5px solid var(--color-border-subtle);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-paper-lg);
+  padding: 10px 20px;
+  color: var(--color-text-main);
+  font-size: 0.875rem;
+  font-weight: 600;
+  z-index: 10001;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 90vw;
+  text-align: center;
+}
+
+.lang-toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
 }
 
 /* ==========================================================================
